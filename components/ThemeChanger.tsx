@@ -376,7 +376,6 @@ export default function ThemeChanger() {
                         <div className="flex border-b border-border">
                             {[
                                 { id: 'presets' as const, label: 'Themes', icon: 'auto_awesome' },
-                                { id: 'colors' as const, label: 'Colors', icon: 'colorize' },
                             ].map((tab) => (
                                 <button
                                     key={tab.id}
@@ -427,38 +426,6 @@ export default function ThemeChanger() {
                                 })}
                             </div>
                         )}
-
-                        {/* Colors Tab */}
-                        {activeTab === 'colors' && (
-                            <div className="space-y-2.5">
-                                {COLOR_LABELS.map(({ key, label }) => (
-                                    <div key={key} className="flex items-center justify-between gap-3 group">
-                                        <label htmlFor={`color-${key}`} className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
-                                            {label}
-                                        </label>
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-[10px] font-mono text-muted-foreground uppercase">
-                                                {customColors[key]}
-                                            </span>
-                                            <label
-                                                className="relative size-8 rounded-lg border border-border overflow-hidden cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all shadow-sm"
-                                                style={{ backgroundColor: customColors[key] }}
-                                            >
-                                                <input
-                                                    id={`color-${key}`}
-                                                    type="color"
-                                                    value={customColors[key]}
-                                                    onChange={(e) => updateColor(key, e.target.value)}
-                                                    className="absolute inset-0 opacity-0 cursor-pointer"
-                                                />
-                                            </label>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-
                     {/* Footer */}
                     <div className="px-5 py-3 border-t border-border bg-secondary/20">
                         <div className="flex gap-2">

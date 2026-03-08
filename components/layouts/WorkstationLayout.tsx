@@ -1,19 +1,21 @@
-'use client';
+"use client";
 
-import { ReactNode, useState, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useSession, signOut } from 'next-auth/react';
-import { useAuth } from '@/lib/AuthContext';
-import NotificationBell from '@/components/NotificationBell';
-import { ThemeToggle } from '@/components/ThemeToggle';
-import ThemeChanger from '@/components/ThemeChanger';
+import { ReactNode, useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
+import { useAuth } from "@/lib/AuthContext";
+import NotificationBell from "@/components/NotificationBell";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import ThemeChanger from "@/components/ThemeChanger";
 
 interface WorkstationLayoutProps {
   children: ReactNode;
 }
 
-export default function WorkstationLayout({ children }: WorkstationLayoutProps) {
+export default function WorkstationLayout({
+  children,
+}: WorkstationLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -22,9 +24,9 @@ export default function WorkstationLayout({ children }: WorkstationLayoutProps) 
   useEffect(() => {
     const initSidebar = () => {
       setMounted(true);
-      const saved = localStorage.getItem('sidebarOpen');
+      const saved = localStorage.getItem("sidebarOpen");
       if (saved !== null) {
-        setIsSidebarOpen(saved === 'true');
+        setIsSidebarOpen(saved === "true");
       }
     };
     initSidebar();
@@ -43,7 +45,7 @@ export default function WorkstationLayout({ children }: WorkstationLayoutProps) 
       // On desktop: toggle collapse
       const newState = !isSidebarOpen;
       setIsSidebarOpen(newState);
-      localStorage.setItem('sidebarOpen', String(newState));
+      localStorage.setItem("sidebarOpen", String(newState));
     }
   };
 
@@ -64,19 +66,24 @@ export default function WorkstationLayout({ children }: WorkstationLayoutProps) 
         className={`
           fixed md:relative z-[260] h-full
           transition-transform duration-300 ease-out
-          ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+          ${isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full"}
           md:translate-x-0
         `}
       >
-        <Sidebar isOpen={isSidebarOpen} isMobile={isMobileSidebarOpen} toggleSidebar={toggleSidebar} />
+        <Sidebar
+          isOpen={isSidebarOpen}
+          isMobile={isMobileSidebarOpen}
+          toggleSidebar={toggleSidebar}
+        />
       </div>
 
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
-        <DashboardHeader isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        <DashboardHeader
+          isSidebarOpen={isSidebarOpen}
+          toggleSidebar={toggleSidebar}
+        />
         <div className="flex-1 overflow-y-auto">
-          <div className="p-4 lg:p-8">
-            {children}
-          </div>
+          <div className="p-4 lg:p-8">{children}</div>
         </div>
       </main>
 
@@ -86,44 +93,60 @@ export default function WorkstationLayout({ children }: WorkstationLayoutProps) 
   );
 }
 
-function Sidebar({ isOpen, isMobile, toggleSidebar }: { isOpen: boolean; isMobile: boolean; toggleSidebar: () => void }) {
+function Sidebar({
+  isOpen,
+  isMobile,
+  toggleSidebar,
+}: {
+  isOpen: boolean;
+  isMobile: boolean;
+  toggleSidebar: () => void;
+}) {
   const pathname = usePathname();
 
   // On mobile, sidebar is always expanded (full-width drawer)
   const expanded = isMobile || isOpen;
 
   const navItems = [
-    { name: 'Dashboard', href: '/dashboard', icon: 'grid_view' },
-    { name: 'Explore', href: '/projects', icon: 'explore' },
-    { name: 'My Projects', href: '/workspace', icon: 'folder_open' },
-    { name: 'Domains', href: '/domains', icon: 'category' },
-    { name: 'Learning Paths', href: '/learning-paths', icon: 'school' },
-    { name: 'Achievements', href: '/achievements', icon: 'emoji_events' },
+    { name: "Dashboard", href: "/dashboard", icon: "grid_view" },
+    { name: "Explore", href: "/projects", icon: "explore" },
+    { name: "My Projects", href: "/workspace", icon: "folder_open" },
+    { name: "Domains", href: "/domains", icon: "category" },
+    { name: "Learning Paths", href: "/learning-paths", icon: "school" },
+    { name: "Achievements", href: "/achievements", icon: "emoji_events" },
   ];
 
   return (
     <aside
       className={`relative h-full flex flex-col transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] z-50 bg-background border-r border-border overflow-hidden
-        ${expanded ? 'w-72' : 'w-[72px]'}`}
+        ${expanded ? "w-72" : "w-[72px]"}`}
     >
       {/* Brand Section */}
       <div className="h-20 flex items-center mb-4 px-4">
         <Link href="/" className="flex items-center gap-3.5 group">
           <div className="size-11 rounded-2xl bg-gradient-to-br from-[#2563EB] to-[#1E40AF] flex items-center justify-center text-white shrink-0 shadow-xl shadow-blue-500/20 group-hover:scale-105 transition-all duration-300">
-            <span className="material-symbols-outlined text-2xl font-light">hub</span>
+            <span className="material-symbols-outlined text-2xl font-light">
+              hub
+            </span>
           </div>
-          <div className={`transition-all duration-500 flex flex-col whitespace-nowrap ${expanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none'}`}>
+          <div
+            className={`transition-all duration-500 flex flex-col whitespace-nowrap ${expanded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4 pointer-events-none"}`}
+          >
             <span className="text-xl font-bold tracking-tight text-foreground leading-tight">
               Project<span className="text-primary">Hub</span>
             </span>
-            <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground">Student Portal</span>
+            <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground">
+              Student Portal
+            </span>
           </div>
         </Link>
       </div>
 
       {/* Navigation Section */}
       <div className="flex-1 space-y-2 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pt-2 px-3">
-        <div className={`mb-4 px-2 text-[11px] font-bold uppercase tracking-[0.15em] text-muted-foreground transition-all duration-300 whitespace-nowrap ${expanded ? 'opacity-100' : 'opacity-0 h-0 mb-0 overflow-hidden'}`}>
+        <div
+          className={`mb-4 px-2 text-[11px] font-bold uppercase tracking-[0.15em] text-muted-foreground transition-all duration-300 whitespace-nowrap ${expanded ? "opacity-100" : "opacity-0 h-0 mb-0 overflow-hidden"}`}
+        >
           Main menu
         </div>
 
@@ -133,18 +156,23 @@ function Sidebar({ isOpen, isMobile, toggleSidebar }: { isOpen: boolean; isMobil
             <Link
               key={item.name}
               href={item.href}
-              className={`flex items-center gap-4 py-3.5 px-3 rounded-2xl transition-all duration-300 group relative overflow-hidden ${isActive
-                ? 'bg-secondary text-primary shadow-sm ring-1 ring-border'
-                : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
-                }`}
+              className={`flex items-center gap-4 py-3.5 px-3 rounded-2xl transition-all duration-300 group relative overflow-hidden ${
+                isActive
+                  ? "bg-secondary text-primary shadow-sm ring-1 ring-border"
+                  : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+              }`}
             >
-              <div className={`flex items-center justify-center size-5 shrink-0 transition-all duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}>
+              <div
+                className={`flex items-center justify-center size-5 shrink-0 transition-all duration-300 ${isActive ? "scale-110" : "group-hover:scale-110"}`}
+              >
                 <span className="material-symbols-outlined text-[22px] font-light">
                   {item.icon}
                 </span>
               </div>
 
-              <span className={`text-[14px] font-semibold tracking-wide transition-all duration-500 whitespace-nowrap overflow-hidden ${expanded ? 'opacity-100 w-auto' : 'opacity-0 w-0 pointer-events-none'}`}>
+              <span
+                className={`text-[14px] font-semibold tracking-wide transition-all duration-500 whitespace-nowrap overflow-hidden ${expanded ? "opacity-100 w-auto" : "opacity-0 w-0 pointer-events-none"}`}
+              >
                 {item.name}
               </span>
 
@@ -160,7 +188,9 @@ function Sidebar({ isOpen, isMobile, toggleSidebar }: { isOpen: boolean; isMobil
 
       {/* System Section */}
       <div className="py-6 border-t border-border bg-secondary/10 px-3">
-        <div className={`mb-4 px-2 text-[11px] font-bold uppercase tracking-[0.15em] text-muted-foreground transition-all duration-300 whitespace-nowrap ${expanded ? 'opacity-100' : 'opacity-0 h-0 mb-0 overflow-hidden'}`}>
+        <div
+          className={`mb-4 px-2 text-[11px] font-bold uppercase tracking-[0.15em] text-muted-foreground transition-all duration-300 whitespace-nowrap ${expanded ? "opacity-100" : "opacity-0 h-0 mb-0 overflow-hidden"}`}
+        >
           System
         </div>
 
@@ -170,21 +200,29 @@ function Sidebar({ isOpen, isMobile, toggleSidebar }: { isOpen: boolean; isMobil
             className="flex items-center gap-4 py-3.5 px-3 rounded-2xl text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-all duration-300 group relative"
           >
             <div className="flex items-center justify-center size-5 shrink-0 group-hover:rotate-45 transition-transform duration-500">
-              <span className="material-symbols-outlined text-[22px] font-light">settings</span>
+              <span className="material-symbols-outlined text-[22px] font-light">
+                settings
+              </span>
             </div>
-            <span className={`text-[14px] font-semibold tracking-wide transition-all duration-500 whitespace-nowrap overflow-hidden ${expanded ? 'opacity-100 w-auto' : 'opacity-0 w-0 pointer-events-none'}`}>
+            <span
+              className={`text-[14px] font-semibold tracking-wide transition-all duration-500 whitespace-nowrap overflow-hidden ${expanded ? "opacity-100 w-auto" : "opacity-0 w-0 pointer-events-none"}`}
+            >
               Settings
             </span>
           </Link>
 
           <button
-            onClick={() => signOut({ callbackUrl: '/' })}
+            onClick={() => signOut({ callbackUrl: "/" })}
             className="w-full flex items-center gap-4 py-3.5 px-3 rounded-2xl text-rose-500 hover:bg-rose-500/10 transition-all duration-300 group relative"
           >
             <div className="flex items-center justify-center size-5 shrink-0 group-hover:-translate-x-0.5 transition-transform duration-300">
-              <span className="material-symbols-outlined text-[22px] font-light">logout</span>
+              <span className="material-symbols-outlined text-[22px] font-light">
+                logout
+              </span>
             </div>
-            <span className={`text-[14px] font-semibold tracking-wide transition-all duration-500 whitespace-nowrap overflow-hidden ${expanded ? 'opacity-100 w-auto' : 'opacity-0 w-0 pointer-events-none'}`}>
+            <span
+              className={`text-[14px] font-semibold tracking-wide transition-all duration-500 whitespace-nowrap overflow-hidden ${expanded ? "opacity-100 w-auto" : "opacity-0 w-0 pointer-events-none"}`}
+            >
               Log Out
             </span>
           </button>
@@ -194,11 +232,17 @@ function Sidebar({ isOpen, isMobile, toggleSidebar }: { isOpen: boolean; isMobil
   );
 }
 
-function DashboardHeader({ isSidebarOpen, toggleSidebar }: { isSidebarOpen: boolean; toggleSidebar: () => void }) {
+function DashboardHeader({
+  isSidebarOpen,
+  toggleSidebar,
+}: {
+  isSidebarOpen: boolean;
+  toggleSidebar: () => void;
+}) {
   const { data: session } = useSession();
   const { user } = useAuth();
 
-  const userName = session?.user?.name || user?.firstName || 'User';
+  const userName = session?.user?.name || user?.firstName || "User";
   const userImage = session?.user?.image || user?.profileImage;
 
   return (
@@ -219,15 +263,14 @@ function DashboardHeader({ isSidebarOpen, toggleSidebar }: { isSidebarOpen: bool
 
         <div className="h-6 w-px bg-border mx-1"></div>
 
-        <div>
-          <ThemeToggle />
-        </div>
-
-        <div className="h-6 w-px bg-border mx-1"></div>
-
-        <Link href="/profile" className="flex items-center gap-3 hover:bg-secondary/30 p-1.5 rounded-xl transition-colors">
+        <Link
+          href="/profile"
+          className="flex items-center gap-3 hover:bg-secondary/30 p-1.5 rounded-xl transition-colors"
+        >
           <div className="text-right hidden sm:block">
-            <p className="text-sm font-semibold text-foreground leading-none">{userName}</p>
+            <p className="text-sm font-semibold text-foreground leading-none">
+              {userName}
+            </p>
           </div>
           {userImage ? (
             <img
