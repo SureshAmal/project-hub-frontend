@@ -33,6 +33,40 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Set the Vercel project Root Directory to [frontend](.).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Required environment variables:
+
+```env
+NEXTAUTH_URL=https://your-frontend-domain.vercel.app
+NEXTAUTH_SECRET=your-random-secret
+JWT_SECRET=your-random-secret
+
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+
+DATABASE_URL=postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require
+DIRECT_URL=postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require
+
+NEXT_PUBLIC_API_URL=https://your-python-backend-domain/api
+
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=optional
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=optional
+```
+
+Notes:
+
+- `DATABASE_URL` is used by Prisma at runtime.
+- `DIRECT_URL` should point to the same Neon/Postgres database. If you only have one Neon connection string, use it for both.
+- `NEXT_PUBLIC_API_URL` must target the deployed Python backend, not localhost.
+- Add the Vercel domain to your Google OAuth allowed redirect URLs.
+
+Build settings:
+
+- Install Command: `npm install`
+- Build Command: `npm run build`
+- Output Directory: leave empty for Next.js
+
+This frontend already runs `prisma generate` during install via `postinstall`.
+
+For more details, see [frontend/.env.example](.env.example).

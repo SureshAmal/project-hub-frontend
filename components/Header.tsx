@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useAuth } from '@/lib/AuthContext';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ThemeToggle } from '@/components/ThemeToggle';
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useAuth } from "@/lib/AuthContext";
+import { motion, AnimatePresence } from "framer-motion";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function Header() {
   const pathname = usePathname();
@@ -13,9 +13,9 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { name: 'Explore', href: '/projects' },
-    { name: 'Paths', href: '/learning-paths' },
-    { name: 'Leaderboard', href: '/leaderboard' },
+    { name: "Explore", href: "/projects" },
+    { name: "Paths", href: "/learning-paths" },
+    { name: "Leaderboard", href: "/leaderboard" },
   ];
 
   useEffect(() => {
@@ -27,9 +27,14 @@ export default function Header() {
     <header className="sticky top-0 z-[100] w-full bg-background/80 backdrop-blur-md border-b border-border transition-colors duration-300">
       <div className="max-w-[1280px] mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group relative z-50">
+        <Link
+          href="/"
+          className="flex items-center gap-2.5 group relative z-50"
+        >
           <div className="size-9 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center shadow-lg shadow-primary/20 transition-transform group-hover:scale-105">
-            <span className="material-symbols-outlined text-white text-lg">hub</span>
+            <span className="material-symbols-outlined text-white text-lg">
+              hub
+            </span>
           </div>
           <span className="text-foreground text-lg font-bold tracking-tight">
             Project<span className="text-primary">Hub</span>
@@ -44,10 +49,11 @@ export default function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActive
-                  ? 'text-primary bg-accent'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-secondary/30'
-                  }`}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  isActive
+                    ? "text-primary bg-accent"
+                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/30"
+                }`}
               >
                 {item.name}
               </Link>
@@ -66,7 +72,7 @@ export default function Header() {
                 >
                   Dashboard
                 </Link>
-                {user.role === 'ADMIN' && (
+                {user.role === "ADMIN" && (
                   <>
                     <Link
                       href="/admin/projects"
@@ -107,17 +113,13 @@ export default function Header() {
             )}
           </div>
 
-          <div className="flex items-center">
-            <ThemeToggle />
-          </div>
-
           {/* Mobile Toggle */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="lg:hidden size-10 flex items-center justify-center rounded-xl border border-border text-muted-foreground hover:bg-secondary/30 transition-colors"
           >
             <span className="material-symbols-outlined">
-              {isMobileMenuOpen ? 'close' : 'menu'}
+              {isMobileMenuOpen ? "close" : "menu"}
             </span>
           </button>
         </div>
@@ -137,10 +139,11 @@ export default function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${pathname === item.href
-                    ? 'text-primary bg-accent'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-secondary/30'
-                    }`}
+                  className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                    pathname === item.href
+                      ? "text-primary bg-accent"
+                      : "text-muted-foreground hover:text-foreground hover:bg-secondary/30"
+                  }`}
                 >
                   {item.name}
                 </Link>
@@ -150,25 +153,36 @@ export default function Header() {
             <div className="flex flex-col gap-3">
               {user ? (
                 <>
-                  <Link href="/dashboard" className="w-full text-center py-3 text-sm font-medium text-foreground bg-secondary/30 rounded-xl border border-border">
+                  <Link
+                    href="/dashboard"
+                    className="w-full text-center py-3 text-sm font-medium text-foreground bg-secondary/30 rounded-xl border border-border"
+                  >
                     Dashboard
                   </Link>
-                  <button onClick={logout} className="w-full text-center py-3 text-sm font-semibold text-white bg-gradient-to-r from-primary to-primary-dark rounded-xl shadow-lg shadow-primary/20">
+                  <button
+                    onClick={logout}
+                    className="w-full text-center py-3 text-sm font-semibold text-white bg-gradient-to-r from-primary to-primary-dark rounded-xl shadow-lg shadow-primary/20"
+                  >
                     Log Out
                   </button>
                 </>
               ) : (
                 <>
-                  <Link href="/login" className="w-full text-center py-3 text-sm font-medium text-foreground bg-secondary/30 rounded-xl border border-border">
+                  <Link
+                    href="/login"
+                    className="w-full text-center py-3 text-sm font-medium text-foreground bg-secondary/30 rounded-xl border border-border"
+                  >
                     Sign In
                   </Link>
-                  <Link href="/projects" className="w-full text-center py-3 text-sm font-semibold text-white bg-gradient-to-r from-primary to-primary-dark rounded-xl shadow-lg shadow-primary/20">
+                  <Link
+                    href="/projects"
+                    className="w-full text-center py-3 text-sm font-semibold text-white bg-gradient-to-r from-primary to-primary-dark rounded-xl shadow-lg shadow-primary/20"
+                  >
                     Get Started
                   </Link>
                 </>
               )}
             </div>
-
           </motion.div>
         )}
       </AnimatePresence>
