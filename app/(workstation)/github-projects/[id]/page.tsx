@@ -834,7 +834,7 @@ export default function GitHubProjectDetailPage({ params }: { params: Promise<{ 
 
               {/* README Modal */}
               {readmeOpen && (
-                <div className="fixed inset-0 z-[500] flex items-center justify-center p-4 sm:p-8">
+                <div className="fixed inset-0 z-[1-00] flex items-center justify-center p-4 sm:p-8">
                   {/* Backdrop */}
                   <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setReadmeOpen(false)} />
                   {/* Modal */}
