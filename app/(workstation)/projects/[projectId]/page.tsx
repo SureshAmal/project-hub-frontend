@@ -43,7 +43,28 @@ interface ProjectDetail {
     isRegularProject: boolean;
 }
 
+function extractLinkFromGuide(guide: string | undefined, label: string): string | undefined {
+    if (!guide) return undefined;
+
+    const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const pattern = new RegExp(
+        `${escapedLabel}:\\s*(?:\\[[^\\]]+\\]\\()?(https?:\\/\\/[^)\\s]+)\\)?`,
+        'i'
+    );
+
+    const match = guide.match(pattern);
+    if (match?.[1]) {
+        return match[1].trim();
+    }
+
+    return undefined;
+}
+
 function normalizeRegularProject(project: Project): ProjectDetail {
+    const repoUrl = extractLinkFromGuide(project.initializationGuide, 'Source repository');
+    const liveUrl = extractLinkFromGuide(project.initializationGuide, 'Live demo');
+    const downloadUrl = extractLinkFromGuide(project.initializationGuide, 'Download archive');
+
     return {
         id: project.id,
         title: project.title,
@@ -66,6 +87,9 @@ function normalizeRegularProject(project: Project): ProjectDetail {
         requirementsText: project.requirementsText,
         evaluationCriteria: project.evaluationCriteria,
         optionalExtensions: project.advancedExtensions,
+        repoUrl,
+        liveUrl,
+        downloadUrl,
         isRegularProject: true,
     };
 }
@@ -296,6 +320,17 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ projec
 
                 {/* Quick-action bar — Download, Live, Source */}
                 <div className="mt-6 flex flex-wrap gap-3">
+                    {project.repoUrl && (
+                        <a
+                            href={project.repoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl text-sm font-semibold transition-all active:scale-95"
+                        >
+                            <span className="material-symbols-outlined text-lg">code</span>
+                            Source Repository
+                        </a>
+                    )}
                     {(project.downloadUrl || project.sourceCode?.downloadUrl) && (
                         <a
                             href={project.sourceCode?.downloadUrl || project.downloadUrl}
