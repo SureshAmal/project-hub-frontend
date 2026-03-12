@@ -193,20 +193,20 @@ function ProjectsContent() {
         return count;
     }, [filters]);
 
-    const quickStats = useMemo(() => {
-        const totalLoaded = projects.length;
-        const beginnerFriendly = filteredProjects.filter(project => project.difficulty === 'EASY').length;
-        const avgTime = filteredProjects.length
-            ? Math.round(filteredProjects.reduce((sum, project) => sum + ((project.estimatedMinTime + project.estimatedMaxTime) / 2), 0) / filteredProjects.length)
-            : 0;
+    // const quickStats = useMemo(() => {
+    //     const totalLoaded = projects.length;
+    //     const beginnerFriendly = filteredProjects.filter(project => project.difficulty === 'EASY').length;
+    //     const avgTime = filteredProjects.length
+    //         ? Math.round(filteredProjects.reduce((sum, project) => sum + ((project.estimatedMinTime + project.estimatedMaxTime) / 2), 0) / filteredProjects.length)
+    //         : 0;
 
-        return [
-            { label: 'Loaded', value: totalLoaded },
-            { label: 'Filtered', value: filteredProjects.length },
-            { label: 'Beginner', value: beginnerFriendly },
-            { label: 'Avg Time', value: avgTime ? `${avgTime}h` : '—' },
-        ];
-    }, [projects, filteredProjects]);
+    //     return [
+    //         { label: 'Loaded', value: totalLoaded },
+    //         { label: 'Filtered', value: filteredProjects.length },
+    //         { label: 'Beginner', value: beginnerFriendly },
+    //         { label: 'Avg Time', value: avgTime ? `${avgTime}h` : '—' },
+    //     ];
+    // }, [projects, filteredProjects]);
 
     return (
         <div className="min-h-screen">
@@ -268,15 +268,6 @@ function ProjectsContent() {
                             />
                         </div>
                     )}
-                </div>
-
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-2">
-                    {quickStats.map((stat) => (
-                        <div key={stat.label} className="rounded-xl border border-border bg-background px-4 py-3 shadow-sm">
-                            <p className="text-xs uppercase tracking-wide text-muted-foreground font-semibold">{stat.label}</p>
-                            <p className="text-xl font-bold text-foreground mt-1">{stat.value}</p>
-                        </div>
-                    ))}
                 </div>
             </div>
 
