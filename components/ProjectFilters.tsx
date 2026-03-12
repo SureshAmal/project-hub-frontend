@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type React from 'react';
 
 interface FilterState {
@@ -16,12 +16,14 @@ interface ProjectFiltersProps {
     onFilterChange: (filters: FilterState) => void;
     availableSkills?: string[];
     availableDomains?: { id: string; name: string }[];
+    value?: FilterState;
 }
 
 export default function ProjectFilters({
     onFilterChange,
     availableSkills = [],
-    availableDomains = []
+    availableDomains = [],
+    value,
 }: ProjectFiltersProps) {
     const difficultyLabels: Record<string, string> = {
         EASY: 'Beginner',
@@ -39,6 +41,12 @@ export default function ProjectFilters({
         domains: [],
         projectType: 'PROJECT',
     });
+
+    useEffect(() => {
+        if (value) {
+            setFilters(value);
+        }
+    }, [value]);
 
     const updateFilters = (newFilters: Partial<FilterState>) => {
         const updated = { ...filters, ...newFilters };

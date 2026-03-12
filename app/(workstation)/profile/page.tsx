@@ -142,14 +142,14 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-10 space-y-10">
+    <div className="max-w-7xl mx-auto px-4 py-6 space-y-6 sm:px-6 sm:py-8 sm:space-y-8 lg:py-10 lg:space-y-10">
       {/* Profile Header Card */}
       <div className="bg-background rounded-2xl border border-border shadow-sm overflow-hidden">
-        <div className="h-48 bg-gradient-to-r from-primary/10 via-primary/5 to-secondary"></div>
-        <div className="px-8 pb-8">
-          <div className="relative flex flex-col md:flex-row items-end gap-6 -mt-16">
+        <div className="h-32 sm:h-40 lg:h-48 bg-gradient-to-r from-primary/10 via-primary/5 to-secondary"></div>
+        <div className="px-4 pb-6 sm:px-6 sm:pb-8 lg:px-8">
+          <div className="relative flex flex-col items-start gap-4 -mt-12 sm:-mt-16 md:flex-row md:items-end md:gap-6">
             <div className="relative group">
-              <div className="size-32 rounded-2xl bg-background p-1 shadow-xl border border-border">
+              <div className="size-24 sm:size-28 lg:size-32 rounded-2xl bg-background p-1 shadow-xl border border-border">
                 {user.profileImage ? (
                   <img
                     src={user.profileImage}
@@ -168,42 +168,42 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            <div className="flex-1 pb-2">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex-1 w-full pb-1 sm:pb-2 min-w-0">
+              <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
-                  <h1 className="text-3xl font-bold text-foreground">
+                  <h1 className="text-2xl sm:text-3xl font-bold text-foreground break-words">
                     {user.firstName} {user.lastName}
                   </h1>
-                  <p className="text-muted-foreground font-medium flex items-center gap-2 mt-1">
+                  <p className="text-sm sm:text-base text-muted-foreground font-medium flex items-center gap-2 mt-1">
                     {user.headline || 'Technical Professional'}
                   </p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex w-full flex-col sm:w-auto sm:flex-row sm:items-center gap-3">
                   <button
                     onClick={() => setIsEditModalOpen(true)}
-                    className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition-all shadow-sm"
+                    className="flex items-center justify-center gap-2 px-5 py-2.5 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition-all shadow-sm w-full sm:w-auto"
                   >
                     <Edit3 size={16} /> Edit Profile
                   </button>
                   <Link
                     href="/settings"
-                    className="p-2.5 bg-background border border-border rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
+                    className="p-2.5 bg-background border border-border rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-all inline-flex items-center justify-center w-full sm:w-auto"
                   >
                     <Settings size={20} />
                   </Link>
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-y-2 gap-x-6 mt-6">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <div className="grid grid-cols-1 gap-2 mt-4 sm:mt-6 sm:flex sm:flex-wrap sm:items-center sm:gap-y-2 sm:gap-x-6">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground min-w-0">
                   <MapPin size={16} /> {user.location || 'Remote'}
                 </div>
                 {user.githubUrl && (
-                  <a href={user.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-primary hover:underline">
+                  <a href={user.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-primary hover:underline min-w-0 break-all">
                     <Globe size={16} /> GitHub Profile
                   </a>
                 )}
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground min-w-0 break-all">
                   <Mail size={16} /> {user.email}
                 </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -237,7 +237,8 @@ export default function ProfilePage() {
 
       {/* Tabs / Content Area */}
       <div className="space-y-6">
-        <div className="flex border-b border-border">
+        <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+          <div className="flex min-w-max border-b border-border">
           {[
             { id: 'overview', label: 'Overview', icon: History },
             { id: 'bookmarks', label: 'Bookmarks', icon: BookmarkIcon },
@@ -246,7 +247,7 @@ export default function ProfilePage() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-6 py-4 text-sm font-medium border-b-2 transition-all ${activeTab === tab.id
+              className={`flex items-center gap-2 whitespace-nowrap px-4 sm:px-6 py-4 text-sm font-medium border-b-2 transition-all ${activeTab === tab.id
                   ? 'border-primary text-primary'
                   : 'border-transparent text-muted-foreground hover:text-foreground'
                 }`}
@@ -255,6 +256,7 @@ export default function ProfilePage() {
               {tab.label}
             </button>
           ))}
+          </div>
         </div>
 
         <div className="min-h-[400px]">
@@ -263,7 +265,7 @@ export default function ProfilePage() {
               <div className="size-8 border-2 border-muted border-t-primary rounded-full animate-spin"></div>
             </div>
           ) : activeTab === 'overview' ? (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
               <div className="lg:col-span-8 space-y-8">
                 <div className="bg-background rounded-xl border border-border p-6">
                   <h3 className="text-lg font-bold text-foreground mb-4">Technical Profile</h3>
@@ -320,7 +322,7 @@ export default function ProfilePage() {
               </div>
             </div>
           ) : activeTab === 'bookmarks' ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
               {bookmarks.length > 0 ? (
                 bookmarks.map((bookmark) => (
                   <GitHubProjectCard
@@ -338,12 +340,12 @@ export default function ProfilePage() {
             <div className="max-w-3xl mx-auto space-y-4">
               {activities.length > 0 ? (
                 activities.map((activity, i) => (
-                  <div key={activity.id} className="flex gap-4 p-4 bg-background rounded-xl border border-border hover:shadow-md transition-shadow">
+                  <div key={activity.id} className="flex flex-col sm:flex-row gap-4 p-4 bg-background rounded-xl border border-border hover:shadow-md transition-shadow">
                     <div className="size-10 rounded-full bg-secondary flex items-center justify-center text-primary shrink-0">
                       <Activity size={18} />
                     </div>
                     <div className="flex-1">
-                      <div className="flex justify-between items-start">
+                      <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-start">
                         <p className="font-semibold text-foreground">{activity.description}</p>
                         <span className="text-xs text-muted-foreground">
                           {new Date(activity.createdAt).toLocaleDateString()}
@@ -368,7 +370,7 @@ export default function ProfilePage() {
       {/* Edit Profile Modal */}
       {isEditModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="w-full max-w-lg bg-background rounded-2xl shadow-2xl overflow-hidden border border-border animate-in zoom-in-95 duration-200">
+          <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto bg-background rounded-2xl shadow-2xl border border-border animate-in zoom-in-95 duration-200">
             <div className="px-6 py-4 border-b border-border flex justify-between items-center bg-secondary/30">
               <h3 className="font-bold text-foreground flex items-center gap-2">
                 <Shield size={18} className="text-primary" />
@@ -383,7 +385,7 @@ export default function ProfilePage() {
             </div>
 
             <form onSubmit={handleUpdateProfile} className="p-6 space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label htmlFor="firstName" className="text-xs font-bold text-muted-foreground uppercase">First Name</label>
                   <input

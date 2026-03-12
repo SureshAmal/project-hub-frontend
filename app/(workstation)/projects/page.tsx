@@ -42,6 +42,7 @@ function ProjectsContent() {
         domains: [] as string[],
         projectType: 'PROJECT',
     });
+    const [showMobileFilters, setShowMobileFilters] = useState(false);
 
     const matchesDifficulty = (selected: string, actual: string) => {
         if (selected === 'ADVANCED') {
@@ -186,6 +187,12 @@ function ProjectsContent() {
         return labels;
     }, [difficultyLabels, filters.difficulty, filters.minTime, filters.maxTime, filters.skills, selectedDomainNames]);
 
+    const activeFiltersCount = useMemo(() => {
+        let count = filters.difficulty.length + filters.domains.length + filters.skills.length;
+        if (filters.minTime > 0 || filters.maxTime < 100) count += 1;
+        return count;
+    }, [filters]);
+
     const quickStats = useMemo(() => {
         const totalLoaded = projects.length;
         const beginnerFriendly = filteredProjects.filter(project => project.difficulty === 'EASY').length;
@@ -224,6 +231,45 @@ function ProjectsContent() {
                     <SearchBar onSearch={handleSearch} />
                 </div>
 
+                <div className="lg:hidden mb-6">
+                    <button
+                        type="button"
+                        onClick={() => setShowMobileFilters(prev => !prev)}
+                        className="w-full rounded-2xl border border-border bg-background px-4 py-3 shadow-sm flex items-center justify-between gap-4"
+                    >
+                        <div className="flex items-center gap-3 min-w-0">
+                            <span className="material-symbols-outlined text-primary">filter_alt</span>
+                            <div className="min-w-0 text-left">
+                                <p className="text-sm font-semibold text-foreground">Filters & project fields</p>
+                                <p className="text-xs text-muted-foreground truncate">
+                                    {activeFiltersCount > 0 ? `${activeFiltersCount} active filters` : 'Filter by domain, difficulty, and time'}
+                                </p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            {activeFiltersCount > 0 && (
+                                <span className="rounded-full bg-primary/10 px-2 py-1 text-xs font-semibold text-primary">
+                                    {activeFiltersCount}
+                                </span>
+                            )}
+                            <span className="material-symbols-outlined text-muted-foreground">
+                                {showMobileFilters ? 'expand_less' : 'expand_more'}
+                            </span>
+                        </div>
+                    </button>
+
+                    {showMobileFilters && (
+                        <div className="mt-4 rounded-2xl border border-border bg-background p-4 shadow-sm">
+                            <ProjectFilters
+                                onFilterChange={setFilters}
+                                availableSkills={availableSkills}
+                                availableDomains={allDomains}
+                                value={filters}
+                            />
+                        </div>
+                    )}
+                </div>
+
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-2">
                     {quickStats.map((stat) => (
                         <div key={stat.label} className="rounded-xl border border-border bg-background px-4 py-3 shadow-sm">
@@ -234,7 +280,7 @@ function ProjectsContent() {
                 </div>
             </div>
 
-            <div className="flex gap-8">
+            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
                 {/* Filters Sidebar */}
                 <div className="hidden lg:block w-72 flex-shrink-0">
                     <div className="sticky top-6">
@@ -242,15 +288,16 @@ function ProjectsContent() {
                             onFilterChange={setFilters}
                             availableSkills={availableSkills}
                             availableDomains={allDomains}
+                            value={filters}
                         />
                     </div>
                 </div>
 
                 {/* Main Content */}
                 <main className="flex-1 flex flex-col min-w-0">
-                    <div className="flex items-center justify-between mb-6 pb-4 border-b border-border">
+                    <div className="flex flex-col gap-3 mb-6 pb-4 border-b border-border sm:flex-row sm:items-center sm:justify-between">
                         <div className="flex flex-col gap-2">
-                            <div className="flex items-center gap-4">
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-4">
                                 <span className="text-sm font-semibold text-primary">
                                     {filteredProjects.length} shown
                                 </span>
@@ -267,6 +314,16 @@ function ProjectsContent() {
                                     ))}
                                 </div>
                             )}
+                        </div>
+                        <div className="lg:hidden">
+                            <button
+                                type="button"
+                                onClick={() => setShowMobileFilters(prev => !prev)}
+                                className="inline-flex items-center gap-2 rounded-xl border border-border bg-background px-3 py-2 text-sm font-medium text-foreground"
+                            >
+                                <span className="material-symbols-outlined text-base">tune</span>
+                                {showMobileFilters ? 'Hide filters' : 'Show filters'}
+                            </button>
                         </div>
                     </div>
 
