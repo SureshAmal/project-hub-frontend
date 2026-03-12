@@ -525,14 +525,12 @@ export const api = {
         }
 
         try {
-            console.log('Fetching from URL:', url);
             const res = await fetchWithAutoRefresh(url, {
                 method: 'GET',
                 headers: await getAuthHeaders(options?.token),
                 cache: options?.cache || 'default', // Leverage browser cache where possible
             });
 
-            console.log('Response status:', res.status, res.statusText);
 
             if (!res.ok) {
                 const errorText = await res.text();

@@ -20,14 +20,10 @@ export const authOptions: NextAuthOptions = {
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials, req) {
-                console.log("----------------------------------------");
-                console.log("Authorize Callback Reached");
-
                 const email = credentials?.email;
                 const password = credentials?.password;
 
                 if (email === "admin@project.com" && password === "Admin@123") {
-                    console.log("Admin credentials matched successfully!");
                     return {
                         id: "admin-user",
                         email: "admin@project.com",

@@ -43,7 +43,6 @@ async function main() {
     },
   });
 
-  console.log('Upserted user:', user.id, user.email, user.role);
 }
 
 main().catch((e) => {

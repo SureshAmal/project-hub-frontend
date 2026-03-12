@@ -16,10 +16,8 @@ export default function GitHubProjectsPage() {
   useEffect(() => {
     async function fetchDomain() {
       try {
-        console.log('Domain slug from params:', domainSlug);
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
         const url = `${apiUrl}/domains/slug/${domainSlug}`;
-        console.log('Fetching domain from:', url);
 
         const response = await fetch(url);
 
