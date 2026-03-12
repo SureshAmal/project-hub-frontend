@@ -150,6 +150,15 @@ function ProjectsContent() {
             }
 
             return true;
+        }).sort((a, b) => {
+            const aHasLive = Boolean(a.liveUrl);
+            const bHasLive = Boolean(b.liveUrl);
+
+            if (aHasLive !== bHasLive) {
+                return aHasLive ? -1 : 1;
+            }
+
+            return (b.stars || 0) - (a.stars || 0);
         });
     }, [projects, filters]);
 

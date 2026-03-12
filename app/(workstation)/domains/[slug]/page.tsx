@@ -1,23 +1,28 @@
 'use client';
 
 import { use, useEffect, useState } from 'react';
-import { domainApi } from '@/lib/api';
+import { domainApi, projectApi } from '@/lib/api';
 import Link from 'next/link';
-import GitHubProjectsList from '@/components/GitHubProjectsList';
-import { Domain } from '@/types';
+import DomainProjectsManager from '@/components/DomainProjectsManager';
+import { Domain, Project } from '@/types';
 
 export default function DomainPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = use(params);
     const [domain, setDomain] = useState<Domain | null>(null);
+    const [projects, setProjects] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const loadDomain = async () => {
             try {
-                const data = await domainApi.getBySlug(slug);
-                setDomain(data);
+                const domainData = await domainApi.getBySlug(slug);
+                setDomain(domainData);
+
+                const projectData = await projectApi.getByDomain(domainData.id);
+                setProjects(Array.isArray(projectData) ? projectData : []);
             } catch (error) {
                 console.error('Failed to load domain:', error);
+                setProjects([]);
             } finally {
                 setLoading(false);
             }
@@ -96,7 +101,7 @@ export default function DomainPage({ params }: { params: Promise<{ slug: string 
                     <div className="h-px flex-1 bg-border mx-8 hidden md:block"></div>
                     <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Browse & start</span>
                 </div>
-                <GitHubProjectsList domainSlug={slug} />
+                <DomainProjectsManager projects={projects} />
             </div>
         </div>
     );
