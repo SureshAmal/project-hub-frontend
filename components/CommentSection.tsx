@@ -392,7 +392,7 @@ function CommentForm({ onSubmit, autoFocus, placeholder, onCancel }: { onSubmit:
                 placeholder={placeholder}
                 rows={autoFocus ? 2 : 3}
                 autoFocus={autoFocus}
-                className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none transition-all"
+                className="w-full px-4 py-3 bg-background border z-300 border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none transition-all"
             />
             <div className="flex justify-end gap-2 mt-2">
                 {onCancel && (
